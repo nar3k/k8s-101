@@ -1,25 +1,31 @@
-# создаем неймспейс и сервис
+# Урок про Service
+
+```
+cd ../2/
+```
+
+## создаем неймспейс и сервис
 ```
 kubectl apply -f 2-ns-svc.yaml
 ```
 ```
 watch kubectl desribe svc nginx -n demo-ns
 ```
-# создаем под с ошибкой
+## создаем под с ошибкой
 ```
 kubectl apply -f 2-po-mistake.yaml
 ```
 
-# видим что в describe не появились endpoints
+## видим что в describe не появились endpoints
 
 Чиним под
 ```
 kubectl apply -f 2-po-correct.yaml
 ```
 
-# видим что в describe  появились endpoints
+## видим что в describe  появились endpoints
 
-# создаем busybox внутри дефолтного неймспейса
+## создаем busybox внутри дефолтного неймспейса
 ```
 kubectl run -i --tty busybox  --image=yauritux/busybox-curl --restart=Never -- sh
 ```
@@ -34,7 +40,7 @@ curl nginx
 exit
 ```
 
-# создаем busybox внутри неймспейса с сервисом
+## создаем busybox внутри неймспейса с сервисом
 ```
 kubectl run -i --tty busybox -n demo-ns --image=yauritux/busybox-curl --restart=Never -- sh
 ```
@@ -50,7 +56,7 @@ curl nginx #success
 exit
 ```
 
-# удаляем нейспейс
+## удаляем нейспейс
 ```
 kubectl delete ns demo-ns
 ```

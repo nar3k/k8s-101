@@ -1,4 +1,10 @@
-# создаем неймспейс и сервис
+# Урок про Deployment
+
+```
+cd ../4/
+```
+
+## создаем неймспейс и сервис
 
 ```
 
@@ -21,9 +27,9 @@ kubectl apply -f 4-deploy-v2.yaml
 
 watch kubectl get po -n deploy-ns
 ```
-# дожидаемся  когда перейдет на v2
+## дожидаемся  когда перейдет на v2
 
-# откатываемся
+## откатываемся
 ```
 kubectl rollout undo deployment kubia -n deploy-ns
 ```
@@ -36,5 +42,5 @@ kubectl rollout undo deployment kubia -n deploy-ns
 exit
 ```
 
-# удаляем ns с лабой
+## удаляем ns с лабой
 kubectl delete ns deploy-ns
