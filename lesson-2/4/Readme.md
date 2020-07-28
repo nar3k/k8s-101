@@ -1,5 +1,9 @@
 # Урок про nginx ingress controller
 
+```
+cd ../4
+```
+
 ## Установим Helm
 
 https://helm.sh/docs/intro/install/#from-homebrew-macos

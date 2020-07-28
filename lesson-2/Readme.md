@@ -1,7 +1,7 @@
 # Урок 1
 
 ```
-cd lesson-1
+cd /lesson-2
 ```
 
 
