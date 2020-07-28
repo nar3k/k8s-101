@@ -37,7 +37,6 @@ kubectl rollout undo deployment kubia -n deploy-ns
 #дожидаемся  когда перейдем на v1
 
 выходим из busybox
-выходим
 ```
 exit
 ```
