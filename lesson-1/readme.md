@@ -8,7 +8,7 @@ cd ../lesson-2
 Выполняем по очереди
 
 
-- [урок про networkpolocy](1/)
-- [урок про service](2/)
-- [урок про ReplicaSet](3/)
-- [урок про Deployment](4/)
+- [задание про networkpolocy](1/)
+- [задание про service](2/)
+- [задание про ReplicaSet](3/)
+- [задание про Deployment](4/)

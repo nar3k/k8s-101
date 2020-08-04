@@ -27,28 +27,7 @@ kubectl create namespace prod
 kubectl label namespace/prod purpose=production
 ```
 
-Запустим файлик с network policy ( netpol.yaml )
 
-```yaml
-kind: NetworkPolicy
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: web-allow-prod
-spec:
-  podSelector:
-    matchLabels:
-      app: web
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          purpose: production
-```
-
-```sh
-$ kubectl apply -f web-allow-prod.yaml
-networkpolicy "web-allow-prod" created
-```
 
 ### Попробуем
 
@@ -67,7 +46,7 @@ If you dont see a command prompt, try pressing enter.
 exit
 ```
 
-Запустим файлик с network policy ( netpol.yaml )
+Запустим файлик с network policy ( 01-web-allow-prod.yaml )
 
 ```yaml
 kind: NetworkPolicy
@@ -86,7 +65,7 @@ spec:
 ```
 
 ```sh
-$ kubectl apply -f web-allow-prod.yaml
+$ kubectl apply -f 01-web-allow-prod.yaml
 networkpolicy "web-allow-prod" created
 ```
 

@@ -1,0 +1,19 @@
+---
+apiVersion: v1 
+kind: Namespace 
+metadata: 
+  name: demo-ns
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-dynamic
+  namespace: demo-ns
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: yc-network-ssd
+  resources:
+    requests:
+      storage: 16Gi

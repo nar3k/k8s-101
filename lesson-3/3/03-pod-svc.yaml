@@ -1,0 +1,44 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: demo-ns
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName:  pvc-dynamic-nfs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: demo-ns
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
