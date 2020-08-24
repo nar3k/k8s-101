@@ -11,3 +11,4 @@
 - [урок про базовые примитивы](lesson-1/)
 - [урок про сети](lesson-2/)
 - [урок про volumes](lesson-3/)
+- [урок про StatefullSet и CertManager](lesson-4/)
