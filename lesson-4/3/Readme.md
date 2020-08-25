@@ -55,7 +55,6 @@ $ echo | openssl s_client -showcerts -servername test.example -connect ${INGRESS
 ```
 Проверим что другой хост выдает дефолтный сертификат
 
-echo | openssl s_client -showcerts -servername testdude.example -connect ${INGRESS_IP}:443 2>/dev/null | openssl x509 -inform pem -noout -text | grep Subject:
 
 
 ```sh
