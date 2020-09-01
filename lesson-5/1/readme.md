@@ -3,7 +3,7 @@
 cd lesson-5/1
 ```
 
-Создадим  deployment c 10 nginx :
+Создадим deployment c 10 nginx:
 
 ```sh
 kubectl apply -f 01-dep.yaml
@@ -22,7 +22,7 @@ watch kubectl get po -o wide -n demo-ns -o=custom-columns=NAME:.metadata.name,no
 kubectl drain cl14607bcn1714k4v3im-ixif --ignore-daemonsets --delete-local-data --force=True
 ```
 
-Увидим что все уехало пачкой
+Увидим, что все уехало пачкой
 
 ```
 $ kubectl drain cl14607bcn1714k4v3im-ixif --ignore-daemonsets --delete-local-data --force=True
@@ -46,14 +46,11 @@ kubectl uncordon cl14607bcn1714k4v3im-ixif
 
 Создадим PodDistruptionBudget
 
-
-
 ```sh
 kubectl apply -f 01-pdb.yaml
 ```
 
 Найдем ноду, на которой несколько подов и задрейним ее
-
 
 Окно 1
 ```sh
@@ -65,7 +62,7 @@ watch kubectl get po -o wide -n demo-ns -o=custom-columns=NAME:.metadata.name,no
 kubectl drain cl14607bcn1714k4v3im-ixif --ignore-daemonsets --delete-local-data --force=True
 ```
 
-Увидим что появились сообщения о том что eviction делать нельзя
+Увидим, что появились сообщения о том, что eviction делать нельзя
 
 ```
 $ kubectl drain cl14607bcn1714k4v3im-ahyn --ignore-daemonsets --delete-local-data --force=True
@@ -93,8 +90,7 @@ $ kubectl uncordon cl14607bcn1714k4v3im-ahyn
 kubectl uncordon cl14607bcn1714k4v3im-ixif
 ```
 
-Закончим лабу
-
+## Удалим namespace с лабой
 ```
 kubectl delete ns demo-ns
 ```

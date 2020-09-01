@@ -1,7 +1,7 @@
 ---
-apiVersion: v1 
-kind: Namespace 
-metadata: 
+apiVersion: v1
+kind: Namespace
+metadata:
   name: deploy-ns
 ---
 apiVersion: v1
