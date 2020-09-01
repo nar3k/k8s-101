@@ -7,11 +7,11 @@ cd ../3/
 ## создаем неймспейс и сервис
 
 ```
-
 kubectl apply -f 3-ns-svc.yaml
 
 kubectl apply -f 3-deploy-v1.yaml
 ```
+
 Запускаем в окне 1
 
 ```
@@ -24,12 +24,10 @@ watch kubectl get pods -n deploy-ns -o wide -o=custom-columns=NAME:.metadata.nam
 kubectl apply -f 3-deploy-v2.yaml
 ```
 
-Видим что поды добавляются по одному
+Видим, что поды добавляются по одному.
 
 
-
-## удаляем ns с лабой
-
+## Удалим namespace с лабой
 ```
 kubectl delete ns deploy-ns
 ```

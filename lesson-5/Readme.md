@@ -9,6 +9,6 @@ cd /lesson-5
 
 
 - [задание про Pod Distruption Budget](1/)
-- [задание про Тейнты и Лейблы](2/)
+- [задание про Taints и Labels](2/)
 - [задание про RollingUpdate](3/)
 - [задание про Anti-Affinity](4/)
