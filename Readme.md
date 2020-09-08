@@ -11,3 +11,4 @@
 - [урок про volumes](lesson-3/)
 - [урок про StatefullSet и CertManager](lesson-4/)
 - [урок про Advanced Scheduling](lesson-5/)
+- [урок про Advanced Scheduling Part 2](lesson-6/)

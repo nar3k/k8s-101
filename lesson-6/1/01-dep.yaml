@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-ns
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: probe
+  namespace: demo-ns
+  labels:
+    app: probe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: probe
+  template:
+    metadata:
+      name: probe
+      labels:
+        app: probe
+    spec:
+      containers:
+      - name: probe
+        image: nar3k/probe
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: probe
+  namespace: demo-ns
+spec:
+  selector:
+    app: probe
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
