@@ -1,74 +1,118 @@
 #  пользователь из iam
 
 ```
-cd lesson-7/1
+cd ../2
 ```
 
-Создадим в нашем фолдере SA и не будем давать ему никаких ролей :
-
-```sh
-yc iam service-account create --name=k8s-sa-user
-```
-
-Вытащим его id ( он пригодится дальше)
-
-```sh
-yc iam service-account get --name=k8s-sa-user --format=json | jq -r .id
-c resource-manager folder add-access-binding --service-account-name=k8s-sa-user --role=viewer --id=$( yc config get folder-id)
-```
-
-Создадим yc профиль с этим sa
-
-```sh
-yc iam key create --service-account-name=k8s-sa-user --output=sa-key.json
-yc config get cloud-id # используем для нового профиля
-yc config get folder-id # используем для нового профиля
-yc config create k8s-sa-user
-yc config set service-account-key sa-key.json
-yc config set cloud-id <cloud-id>
-yc config set folder-id <folder-id>
-```
-
-Создадим профиль для такого пользователя
-
-```sh
-kubectl config current-context # запомним , пригодится дальше
-yc managed-kubernetes cluster get-credentials  --context-name=k8s-sa --id cateqfn1s7fupiu9bo48 --profile=k8s-sa-user --force --external
-```
-попробуем залистить ноды
-
-и у нас ничего не выйдет
-
-```sh
-kubectl get nodes
-Error from server (Forbidden): nodes is forbidden: User "ajejaknpv691pncogst5" cannot list resource "nodes" in API group "" at the cluster scope
-```
-дадим ролей внутри кластера
-
-```sh
-yc managed-kubernetes cluster get-credentials  --context-name=k8s-sa --id cateqfn1s7fupiu9bo48 --profile=prod --force --external
+Запустим сначала под с дефолтным SA
 
 ```
-заполним в файле id 01-CRB.yaml id SA в поле user и применим
-
+kubectl apply -f 02-pod-default-sa.yaml
 ```
-kubectl apply -f 01-CRB.yaml
 
-yc managed-kubernetes cluster get-credentials  --context-name=k8s-sa --id cateqfn1s7fupiu9bo48 --profile=k8s-sa-user --force --external
+Обратим внимание что к поду примонтирован дефолтный секрет SA
+
 
 ```
 
-Теперь все получается
-```
-$ kubectl get nodes
-NAME                        STATUS   ROLES    AGE     VERSION
-cl1a8efj57gn5ccs1gfv-ujiq   Ready    <none>   14d     v1.17.8
-cl1fu7golamsfv2f3to0-ojeh   Ready    <none>   14d     v1.17.8
-cl1tbgmha61b3u1tc52n-ipuj   Ready    <none>   6d21h   v1.17.8
+kubectl get po curl -o yaml
+
+apiVersion: v1
+kind: Pod
+...
+spec:
+  containers:
+  - image: yauritux/busybox-curl
+    ...
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-b9xbs
+      readOnly: true
+..
+  volumes:
+  - name: default-token-b9xbs
+    secret:
+      defaultMode: 420
+      secretName: default-token-b9xbs
+...
+
 ```
 
-вернемся в основной профиль
+Зайдем в под и попробуем с него поделать запросы в kubernetes api
 
 ```
-yc managed-kubernetes cluster get-credentials  --context-name=k8s-sa --id cateqfn1s7fupiu9bo48 --profile=prod --force --external
+kubectl exec -ti curl -- sh
+apk add curl
+```
+
+без токена совсем
+```
+curl https://kubernetes/api/v1 --insecure
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {
+
+  },
+  "status": "Failure",
+  "message": "forbidden: User \"system:anonymous\" cannot get path \"/api/v1\"",
+  "reason": "Forbidden",
+  "details": {
+
+  },
+  "code": 403
+```
+
+c дефолтным токеном уже лучше
+
+```
+TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token)
+/ # curl -H “Authorization: Bearer $TOKEN” https://kubernetes/api/v1/ --insecure
+Создадим SA внутри кластера k8s и сделаем его админом  :
+```
+Но например нельзя листить поды
+
+```
+curl -H "Authorization: Bearer $TOKEN" https://kubernetes/api/v1/namespaces/default/pods/ --insecure
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {
+
+  },
+  "status": "Failure",
+  "message": "pods is forbidden: User \"system:serviceaccount:default:default\" cannot list resource \"pods\" in API group \"\" in the namespace \"default\"",
+  "reason": "Forbidden",
+  "details": {
+    "kind": "pods"
+  },
+  "code": 403
+
+```
+
+Давайте создадим новый SA ( админ ) и под с ним
+
+```
+kubectl apply -f 02-sa.yaml
+kubectl apply -f 02-pod-admin-sa.yaml
+```
+
+Зайдем в под и попробуем с него поделать запросы в kubernetes api
+
+```
+kubectl exec -ti curl-admin -- sh
+apk add curl
+```
+
+Теперь мы можем листить поды
+
+```
+TOKEN=$(cat /run/secrets/kubernetes.io/serviceaccount/token)
+curl -H "Authorization: Bearer $TOKEN" https://kubernetes/api/v1/namespaces/default/pods/ --insecure
+```
+
+Завершим лабу
+
+```
+kubectl delete all --all
 ```
