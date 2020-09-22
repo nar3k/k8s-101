@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl-admin
+  labels:
+    app: MyApp
+spec:
+  serviceAccountName: sa-admin
+  containers:
+  - name: curl-admin
+    image: alpine:3.9
+    command:
+     - "sleep"
+     - "10000"
