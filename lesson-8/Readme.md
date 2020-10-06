@@ -1,7 +1,7 @@
-# Урок 6 RBAC
+# Урок 8
 
 ```
-cd /lesson-5
+cd /lesson-9
 ```
 
 
