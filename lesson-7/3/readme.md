@@ -1,4 +1,4 @@
-#  пользователь из iam
+# Gatekeeper
 
 ```
 cd ../3
@@ -65,6 +65,7 @@ kubectl apply -f 03-good-deploy.yaml
 kubectl get all
 
 ```
+
 
 
 Удалим лабу
