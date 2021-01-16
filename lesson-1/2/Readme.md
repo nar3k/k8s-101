@@ -9,7 +9,7 @@ cd ../2/
 kubectl apply -f 2-ns-svc.yaml
 ```
 ```
-watch kubectl desribe svc nginx -n demo-ns
+watch kubectl describe svc nginx -n demo-ns
 ```
 ## создаем под с ошибкой
 ```
