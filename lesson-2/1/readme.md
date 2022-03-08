@@ -13,7 +13,7 @@ cd 1/
 
 ```sh
 kubectl run web --image=nginx --labels=app=web --expose --port 80
-̀̀```
+```
 
 Создадим  `prod` , `dev` неймпейсы:
 
