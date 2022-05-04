@@ -9,11 +9,14 @@ cd 1/
 Есть 3 namespace - `default`, `prod`, `dev`. Мы хотим чтобы поды из namespace `prod` могли ходить в наше приложение, которое развернуто в namespace `default`, а из `dev` соотвестенно не могли
 
 
-Развернем веб сервер в  default:
-
-    kubectl run --generator=run-pod/v1 web --image=nginx \
-        --labels=app=web --expose --port 80
-
+Развернем веб сервер в  default (kubectl версии < 1.18):
+```sh
+kubectl run --generator=run-pod/v1 web --image=nginx --labels=app=web --expose --port 80
+```
+Для kubectl версии ≥1.18:
+```sh
+kubectl run web --image=nginx --labels=app=web --expose --port 80
+```
 
 Создадим  `prod` , `dev` неймпейсы:
 
