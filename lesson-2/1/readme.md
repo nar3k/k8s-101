@@ -37,7 +37,7 @@ kubectl label namespace/prod purpose=production
 Сделаем запрос  из `dev` он  пройдет:
 
 ```sh
-$ kubectl run --generator=run-pod/v1 test-$RANDOM --namespace=dev --rm -i -t --image=alpine -- sh
+$ kubectl run test-$RANDOM --namespace=dev --rm -i -t --image=alpine -- sh
 If you dont see a command prompt, try pressing enter.
 / # wget -qO- --timeout=2 http://web.default
 <!DOCTYPE html>
@@ -76,7 +76,7 @@ networkpolicy "web-allow-prod" created
 Сделаем запрос  из `dev` он  не пройдет:
 
 ```sh
-$ kubectl run --generator=run-pod/v1 test-$RANDOM --namespace=dev --rm -i -t --image=alpine -- sh
+$ kubectl run test-$RANDOM --namespace=dev --rm -i -t --image=alpine -- sh
 If you dont see a command prompt, try pressing enter.
 / # wget -qO- --timeout=2 http://web.default
 wget: download timed out
@@ -87,7 +87,7 @@ wget: download timed out
 Сделаем запрос  из `prod` он  пройдет:
 
 ```sh
-$ kubectl run --generator=run-pod/v1 test-$RANDOM --namespace=prod --rm -i -t --image=alpine -- sh
+$ kubectl run test-$RANDOM --namespace=prod --rm -i -t --image=alpine -- sh
 If you don't see a command prompt, try pressing enter.
 / # wget -qO- --timeout=2 http://web.default
 <!DOCTYPE html>
