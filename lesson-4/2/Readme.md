@@ -12,12 +12,12 @@ kubectl create -f 02-ns.yaml
 Изучим файлики для запуска sts
 
 ```sh
-kubectl create -f 02-cm.yaml
+kubectl create -f 02-cm-svc.yaml
 ```
 
 Запустим сам sts и дождемся чтобы он создал все поды
 ```sh
-kubectl create -f 03-sts.yaml
+kubectl create -f 02-sts.yaml
 watch kubectl get pods -l app=mysql -n demo-ns # запустить во вкладке
 ```
 
