@@ -14,6 +14,10 @@ cd 1/
 kubectl run --generator=run-pod/v1 web --image=nginx --labels=app=web --expose --port 80
 ```
 Для kubectl версии ≥1.18:
+=======
+Развернем веб сервер в  default:
+
+
 ```sh
 kubectl run web --image=nginx --labels=app=web --expose --port 80
 ```
