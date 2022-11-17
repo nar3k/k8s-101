@@ -9,7 +9,14 @@ cd 1/
 Есть 3 namespace - `default`, `prod`, `dev`. Мы хотим чтобы поды из namespace `prod` могли ходить в наше приложение, которое развернуто в namespace `default`, а из `dev` соотвестенно не могли
 
 
+Развернем веб сервер в  default (kubectl версии < 1.18):
+```sh
+kubectl run --generator=run-pod/v1 web --image=nginx --labels=app=web --expose --port 80
+```
+Для kubectl версии ≥1.18:
+=======
 Развернем веб сервер в  default:
+
 
 ```sh
 kubectl run web --image=nginx --labels=app=web --expose --port 80
@@ -34,7 +41,7 @@ kubectl label namespace/prod purpose=production
 Сделаем запрос  из `dev` он  пройдет:
 
 ```sh
-$ kubectl run --generator=run-pod/v1 test-$RANDOM --namespace=dev --rm -i -t --image=alpine -- sh
+$ kubectl run test-$RANDOM --namespace=dev --rm -i -t --image=alpine -- sh
 If you dont see a command prompt, try pressing enter.
 / # wget -qO- --timeout=2 http://web.default
 <!DOCTYPE html>
@@ -73,7 +80,7 @@ networkpolicy "web-allow-prod" created
 Сделаем запрос  из `dev` он  не пройдет:
 
 ```sh
-$ kubectl run --generator=run-pod/v1 test-$RANDOM --namespace=dev --rm -i -t --image=alpine -- sh
+$ kubectl run test-$RANDOM --namespace=dev --rm -i -t --image=alpine -- sh
 If you dont see a command prompt, try pressing enter.
 / # wget -qO- --timeout=2 http://web.default
 wget: download timed out
@@ -84,7 +91,7 @@ wget: download timed out
 Сделаем запрос  из `prod` он  пройдет:
 
 ```sh
-$ kubectl run --generator=run-pod/v1 test-$RANDOM --namespace=prod --rm -i -t --image=alpine -- sh
+$ kubectl run test-$RANDOM --namespace=prod --rm -i -t --image=alpine -- sh
 If you don't see a command prompt, try pressing enter.
 / # wget -qO- --timeout=2 http://web.default
 <!DOCTYPE html>
