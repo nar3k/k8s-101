@@ -7,7 +7,7 @@ cd ../3/
 Создадим  storageClass   :
 
 ```sh
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+helm repo add stable https://charts.helm.sh/stable
 
 helm install nfs stable/nfs-server-provisioner --set=persistence.enabled=True,persistence.size=33Gi,persistence.storageClass='yc-network-ssd'
 

@@ -11,9 +11,9 @@ cd 1/
 
 Развернем веб сервер в  default:
 
-    kubectl run --generator=run-pod/v1 web --image=nginx \
-        --labels=app=web --expose --port 80
-
+```sh
+kubectl run web --image=nginx --labels=app=web --expose --port 80
+```
 
 Создадим  `prod` , `dev` неймпейсы:
 
